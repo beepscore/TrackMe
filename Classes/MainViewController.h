@@ -13,10 +13,12 @@
 @interface MainViewController : UIViewController 
 <FlipsideViewControllerDelegate, CLLocationManagerDelegate, MKMapViewDelegate> {
     MKMapView *myMapView;
+    CLLocationManager *locationManager;
 }
 #pragma mark -
 #pragma mark properties
 @property(nonatomic, retain) IBOutlet MKMapView *myMapView;
+@property(nonatomic,retain)CLLocationManager *locationManager;
 
 - (IBAction)showInfo;
 

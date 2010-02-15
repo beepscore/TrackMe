@@ -16,6 +16,7 @@
 #pragma mark -
 #pragma mark properties
 @synthesize myMapView;
+@synthesize locationManager;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -30,6 +31,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // Ref Dudney Ch 24 Distance
+        self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+        self.locationManager.delegate = self;
+        // notify us only if distance changes by 10 meters or more
+        self.locationManager.distanceFilter = 10.0f;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        [self.locationManager startUpdatingLocation];
+    
     // Load the points of interest. Very manual for now.    
     // CLLocationCoordinate2D coord1 = { 37.323388, -122.013958 };
     // Seattle
@@ -37,11 +46,6 @@
     PointOfInterest *pointOfInterest1 = [[PointOfInterest alloc] init];
     pointOfInterest1.coordinate = coord1;
     pointOfInterest1.title = @"Point 1";
-    
-    CLLocationCoordinate2D coord2 = { 47.55, -122.15 };
-    PointOfInterest *pointOfIntererst2 = [[PointOfInterest alloc] init];
-    pointOfIntererst2.coordinate = coord2;
-    pointOfIntererst2.title = @"Point 2";
     
     CLLocationCoordinate2D initialCenter = pointOfInterest1.coordinate;
     
@@ -52,9 +56,7 @@
     self.myMapView.region = initialRegion;
     
     [self.myMapView addAnnotation:pointOfInterest1];
-    [self.myMapView addAnnotation:pointOfIntererst2];
     [pointOfInterest1 release], pointOfInterest1 = nil;
-    [pointOfIntererst2 release], pointOfIntererst2 = nil;
 }
 
 
@@ -95,18 +97,19 @@
  */
 
 
+#pragma mark destructors and memory cleanUp
+// use cleanUp method to avoid repeating code in setView, viewDidUnload, and dealloc
+- (void)cleanUp {
+    [myMapView release], myMapView = nil;
+    [locationManager release], locationManager = nil;
+}
+
+
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
-}
-
-
-#pragma mark destructors and memory cleanUp
-// use cleanUp method to avoid repeating code in setView, viewDidUnload, and dealloc
-- (void)cleanUp {
-    [myMapView release], myMapView = nil;
 }
 
 
@@ -176,6 +179,24 @@
     NSLog(@"lat: %f, long: %f, latDelta: %f, longDelta: %f",
           aMapView.region.center.latitude, aMapView.region.center.longitude, 
           aMapView.region.span.latitudeDelta, aMapView.region.span.longitudeDelta);
+}
+
+
+#pragma mark Location methods
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation {
+
+    PointOfInterest *newPointOfInterest = [[PointOfInterest alloc] init];
+    newPointOfInterest.title = @"POI";
+    newPointOfInterest.coordinate = newLocation.coordinate;
+
+    [self.myMapView addAnnotation:newPointOfInterest];
+    [newPointOfInterest release], newPointOfInterest = nil;
+    
+    // receiver is myMapView.  myMapView will call it's delegate, MainViewController
+//    [self.myMapView mapView:self.myMapView viewForAnnotation:newPointOfInterest];
+    [self.myMapView setNeedsDisplay];
 }
 
 
