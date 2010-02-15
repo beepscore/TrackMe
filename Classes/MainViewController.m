@@ -31,32 +31,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Ref Dudney Ch 24 Distance
-        self.locationManager = [[[CLLocationManager alloc] init] autorelease];
-        self.locationManager.delegate = self;
-        // notify us only if distance changes by 10 meters or more
-        self.locationManager.distanceFilter = 10.0f;
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-        [self.locationManager startUpdatingLocation];
+    // Ref Dudney Ch 24 Distance  init then autorelease (sic)
     
-    // Load the points of interest. Very manual for now.    
-    // CLLocationCoordinate2D coord1 = { 37.323388, -122.013958 };
-    // Seattle
-    CLLocationCoordinate2D coord1 = { 47.65, -122.35 };
-    PointOfInterest *pointOfInterest1 = [[PointOfInterest alloc] init];
-    pointOfInterest1.coordinate = coord1;
-    pointOfInterest1.title = @"Point 1";
-    
-    CLLocationCoordinate2D initialCenter = pointOfInterest1.coordinate;
-    
-    //  MKCoordinateSpan initialSpan = MKCoordinateSpanMake(0.454305, 0.398254);
-    MKCoordinateSpan initialSpan = MKCoordinateSpanMake(0.4, 0.4);
-    
-    MKCoordinateRegion initialRegion = MKCoordinateRegionMake(initialCenter, initialSpan);
-    self.myMapView.region = initialRegion;
-    
-    [self.myMapView addAnnotation:pointOfInterest1];
-    [pointOfInterest1 release], pointOfInterest1 = nil;
+    // TODO: check if dealloc overreleases locationManager.  if not moving, stop updating location to save power
+    self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+    self.locationManager.delegate = self;
+    // notify us only if distance changes by 10 meters or more
+    self.locationManager.distanceFilter = 10.0f;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    [self.locationManager startUpdatingLocation];
 }
 
 
@@ -186,17 +169,29 @@
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
-
+    
     PointOfInterest *newPointOfInterest = [[PointOfInterest alloc] init];
     newPointOfInterest.title = @"POI";
     newPointOfInterest.coordinate = newLocation.coordinate;
-
+    
     [self.myMapView addAnnotation:newPointOfInterest];
     [newPointOfInterest release], newPointOfInterest = nil;
     
+    // Ref Dudney Ch25 pg 470, 466, 451.  Can recenter map as on pg 451, but don't need to?  
+    // In IB, checking mapView showsUserLocation will initially center map for us.
+    
     // receiver is myMapView.  myMapView will call it's delegate, MainViewController
-//    [self.myMapView mapView:self.myMapView viewForAnnotation:newPointOfInterest];
-    [self.myMapView setNeedsDisplay];
+    // [self.myMapView mapView:self.myMapView viewForAnnotation:newPointOfInterest];
+    
+    // Set region based on old and new location
+    CLLocationCoordinate2D theCenter = newLocation.coordinate;
+    
+    MKCoordinateSpan theSpan = MKCoordinateSpanMake(
+                                                    fmin(45.0, 4.0f * fabs(newLocation.coordinate.latitude - oldLocation.coordinate.latitude)),
+                                                    fmin(45.0, 4.0f * fabs(newLocation.coordinate.longitude - oldLocation.coordinate.longitude)));
+    
+    MKCoordinateRegion theRegion = MKCoordinateRegionMake(theCenter, theSpan);    
+    [self.myMapView setRegion:theRegion animated:YES];
 }
 
 

@@ -9,7 +9,9 @@
 #import <MapKit/MapKit.h>
 
 @interface PointOfInterest : NSObject <MKAnnotation> {
+    // MKAnnotation protocol required property.  Ref Dudney sec 25.3
     CLLocationCoordinate2D coordinate;
+    // MKAnnotation protocol optional methods
     NSString *title;
     NSString *subtitle;
 }
