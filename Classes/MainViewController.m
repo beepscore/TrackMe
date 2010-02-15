@@ -46,7 +46,7 @@
     CLLocationCoordinate2D initialCenter = pointOfInterest1.coordinate;
     
     //  MKCoordinateSpan initialSpan = MKCoordinateSpanMake(0.454305, 0.398254);
-    MKCoordinateSpan initialSpan = MKCoordinateSpanMake(0.2, 0.2);
+    MKCoordinateSpan initialSpan = MKCoordinateSpanMake(0.4, 0.4);
     
     MKCoordinateRegion initialRegion = MKCoordinateRegionMake(initialCenter, initialSpan);
     self.myMapView.region = initialRegion;
