@@ -31,15 +31,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Ref Dudney Ch 24 Distance  init then autorelease (sic)
+    // Ref Dudney Ch 24 Distance  init then autorelease (sic)  We only need to set the delegate.
     
-    // TODO: check if dealloc overreleases locationManager.  if not moving, stop updating location to save power
+    // TODO: If not moving, stop updating location to save power
+    
     self.locationManager = [[[CLLocationManager alloc] init] autorelease];
     self.locationManager.delegate = self;
     // notify us only if distance changes by 10 meters or more
     self.locationManager.distanceFilter = 10.0f;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [self.locationManager startUpdatingLocation];
+    
+    
+    // Set region
+    // Seattle
+    // CLLocationCoordinate2D theCenter = { 47.65, -122.35 };
+    // Redmond
+    //    CLLocationCoordinate2D theCenter = { 47.65, -122.35 };
+    //    MKCoordinateSpan theSpan = MKCoordinateSpanMake(0.2, 0.2);    
+    //    MKCoordinateRegion theRegion = MKCoordinateRegionMake(theCenter, theSpan);    
+    //    [self.myMapView setRegion:theRegion animated:YES];
+    
 }
 
 
@@ -84,7 +96,8 @@
 // use cleanUp method to avoid repeating code in setView, viewDidUnload, and dealloc
 - (void)cleanUp {
     [myMapView release], myMapView = nil;
-    [locationManager release], locationManager = nil;
+    // locationManager was autoreleased.  Don't overrelease it
+    //[locationManager release], locationManager = nil;
 }
 
 
@@ -170,28 +183,35 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
     
+    // Ref Dudney Ch25 pg 470, 466, 451.  Can recenter map as on pg 451, but don't need to?  
+    // In IB, checking mapView showsUserLocation will initially center map for us.
+    
+    // Set region based on old and new location
+    CLLocationCoordinate2D theCenter = newLocation.coordinate;
+    
+    MKCoordinateSpan theSpan;
+    // if this is the first update, oldLocation is nil
+    // if this is the second update, the coordinates of newLocation may equal the coordinates of oldLocation
+    if (nil == oldLocation 
+        || (newLocation.coordinate.latitude == oldLocation.coordinate.latitude)
+        || (newLocation.coordinate.longitude == oldLocation.coordinate.longitude)) {
+        theSpan = MKCoordinateSpanMake(0.2, 0.2);
+    } else {
+        theSpan = MKCoordinateSpanMake(
+                                       fmin(45.0, 4.0f * fabs(newLocation.coordinate.latitude - oldLocation.coordinate.latitude)),
+                                       fmin(45.0, 4.0f * fabs(newLocation.coordinate.longitude - oldLocation.coordinate.longitude)));
+    }
+    NSLog(@"lat: %f, long: %f, latDelta: %f, longDelta: %f",
+          theCenter.latitude, theCenter.longitude, theSpan.latitudeDelta, theSpan.longitudeDelta);
+    MKCoordinateRegion theRegion = MKCoordinateRegionMake(theCenter, theSpan);    
+    [self.myMapView setRegion:theRegion animated:YES];
+
     PointOfInterest *newPointOfInterest = [[PointOfInterest alloc] init];
     newPointOfInterest.title = @"POI";
     newPointOfInterest.coordinate = newLocation.coordinate;
     
     [self.myMapView addAnnotation:newPointOfInterest];
     [newPointOfInterest release], newPointOfInterest = nil;
-    
-    // Ref Dudney Ch25 pg 470, 466, 451.  Can recenter map as on pg 451, but don't need to?  
-    // In IB, checking mapView showsUserLocation will initially center map for us.
-    
-    // receiver is myMapView.  myMapView will call it's delegate, MainViewController
-    // [self.myMapView mapView:self.myMapView viewForAnnotation:newPointOfInterest];
-    
-    // Set region based on old and new location
-    CLLocationCoordinate2D theCenter = newLocation.coordinate;
-    
-    MKCoordinateSpan theSpan = MKCoordinateSpanMake(
-                                                    fmin(45.0, 4.0f * fabs(newLocation.coordinate.latitude - oldLocation.coordinate.latitude)),
-                                                    fmin(45.0, 4.0f * fabs(newLocation.coordinate.longitude - oldLocation.coordinate.longitude)));
-    
-    MKCoordinateRegion theRegion = MKCoordinateRegionMake(theCenter, theSpan);    
-    [self.myMapView setRegion:theRegion animated:YES];
 }
 
 
