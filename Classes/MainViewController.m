@@ -35,7 +35,7 @@
     
     // TODO: If not moving, stop updating location to save power
     
-    self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+    self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     // notify us only if distance changes by 10 meters or more
     self.locationManager.distanceFilter = 10.0f;
@@ -75,8 +75,7 @@
 // use cleanUp method to avoid repeating code in setView, viewDidUnload, and dealloc
 - (void)cleanUp {
     [myMapView release], myMapView = nil;
-    // locationManager was autoreleased.  Don't overrelease it
-    //[locationManager release], locationManager = nil;
+    [locationManager release], locationManager = nil;
 }
 
 
@@ -101,6 +100,14 @@
     }    
     // Invoke super's implementation last    
     [super setView:aView];    
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    // Stop updating location to reduce power consumption and save battery 
+    [self.locationManager stopUpdatingLocation];
 }
 
 
