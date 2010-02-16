@@ -186,7 +186,13 @@
     [self.myMapView setRegion:theRegion animated:YES];
 
     PointOfInterest *newPointOfInterest = [[PointOfInterest alloc] init];
-    newPointOfInterest.title = @"POI";
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];                
+    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];                
+    newPointOfInterest.title = [dateFormatter stringFromDate:newLocation.timestamp];
+    [dateFormatter release];
+    
     newPointOfInterest.coordinate = newLocation.coordinate;
     
     [self.myMapView addAnnotation:newPointOfInterest];
