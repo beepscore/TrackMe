@@ -41,27 +41,7 @@
     self.locationManager.distanceFilter = 10.0f;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [self.locationManager startUpdatingLocation];
-    
-    
-    // Set region
-    // Seattle
-    // CLLocationCoordinate2D theCenter = { 47.65, -122.35 };
-    // Redmond
-    //    CLLocationCoordinate2D theCenter = { 47.65, -122.35 };
-    //    MKCoordinateSpan theSpan = MKCoordinateSpanMake(0.2, 0.2);    
-    //    MKCoordinateRegion theRegion = MKCoordinateRegionMake(theCenter, theSpan);    
-    //    [self.myMapView setRegion:theRegion animated:YES];
-    
 }
-
-
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
 
 
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller {
@@ -80,7 +60,6 @@
 	
 	[controller release];
 }
-
 
 
 /*
