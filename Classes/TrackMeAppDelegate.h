@@ -6,15 +6,16 @@
 //  Copyright Beepscore LLC 2010. All rights reserved.
 //
 
-@class MainViewController;
+#import <UIKit/UIKit.h>
+@class TrackMeViewController;
 
 @interface TrackMeAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
-    MainViewController *mainViewController;
+    TrackMeViewController *viewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) MainViewController *mainViewController;
+@property (nonatomic, retain) IBOutlet TrackMeViewController *viewController;
 
 @end
 

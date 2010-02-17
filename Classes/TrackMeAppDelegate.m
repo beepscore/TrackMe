@@ -7,29 +7,27 @@
 //
 
 #import "TrackMeAppDelegate.h"
-#import "MainViewController.h"
+#import "TrackMeViewController.h"
 
 @implementation TrackMeAppDelegate
 
 
 @synthesize window;
-@synthesize mainViewController;
+@synthesize viewController;
 
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
-	MainViewController *aController = [[MainViewController alloc] initWithNibName:@"MainView" bundle:nil];
-	self.mainViewController = aController;
-	[aController release];
-	
-    mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
-	[window addSubview:[mainViewController view]];
+    // Override point for customization after app launch    
+    [window addSubview:viewController.view];
     [window makeKeyAndVisible];
+	
+	return YES;
 }
 
 
 - (void)dealloc {
-    [mainViewController release];
+    [viewController release];
     [window release];
     [super dealloc];
 }

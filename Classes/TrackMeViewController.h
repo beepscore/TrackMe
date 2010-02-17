@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  TrackMeViewController.h
 //  TrackMe
 //
 //  Created by Steve Baker on 2/15/10.
@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "FlipsideViewController.h"
 
-@interface MainViewController : UIViewController 
-<FlipsideViewControllerDelegate, CLLocationManagerDelegate, MKMapViewDelegate> {
+@interface TrackMeViewController : UIViewController 
+<CLLocationManagerDelegate, MKMapViewDelegate> {
     MKMapView *myMapView;
     CLLocationManager *locationManager;
 }
@@ -19,7 +18,5 @@
 #pragma mark properties
 @property(nonatomic, retain) IBOutlet MKMapView *myMapView;
 @property(nonatomic,retain)CLLocationManager *locationManager;
-
-- (IBAction)showInfo;
 
 @end

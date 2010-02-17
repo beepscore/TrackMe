@@ -1,17 +1,16 @@
 //
-//  MainViewController.m
+//  TrackMeViewController.m
 //  TrackMe
 //
 //  Created by Steve Baker on 2/15/10.
 //  Copyright Beepscore LLC 2010. All rights reserved.
 //
 
-#import "MainViewController.h"
-#import "MainView.h"
+#import "TrackMeViewController.h"
 #import "PointOfInterest.h"
 
 
-@implementation MainViewController
+@implementation TrackMeViewController
 
 #pragma mark -
 #pragma mark properties
@@ -39,24 +38,6 @@
     self.locationManager.distanceFilter = 10.0f;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [self.locationManager startUpdatingLocation];
-}
-
-
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller {
-    
-	[self dismissModalViewControllerAnimated:YES];
-}
-
-
-- (IBAction)showInfo {    
-	
-	FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
-	controller.delegate = self;
-	
-	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-	[self presentModalViewController:controller animated:YES];
-	
-	[controller release];
 }
 
 
