@@ -179,8 +179,8 @@
     // if this is the first update, oldLocation is nil
     // if this is the second update, the coordinates of newLocation may equal the coordinates of oldLocation
     if (nil == oldLocation 
-        || (newLocation.coordinate.latitude == oldLocation.coordinate.latitude)
-        || (newLocation.coordinate.longitude == oldLocation.coordinate.longitude)) {
+        || ((newLocation.coordinate.latitude == oldLocation.coordinate.latitude)
+        && (newLocation.coordinate.longitude == oldLocation.coordinate.longitude))) {
         theSpan = MKCoordinateSpanMake(0.2, 0.2);
     } else {
         theSpan = MKCoordinateSpanMake(
