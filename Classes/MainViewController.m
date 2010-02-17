@@ -31,8 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Ref Dudney Ch 24 Distance  init then autorelease (sic)  We only need to set the delegate.
-    
     // TODO: If not moving, stop updating location to save power
     
     self.locationManager = [[CLLocationManager alloc] init];
@@ -62,13 +60,13 @@
 }
 
 
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations
+    return ((interfaceOrientation == UIInterfaceOrientationPortrait == interfaceOrientation)
+            || (UIInterfaceOrientationLandscapeLeft == interfaceOrientation)
+            || (UIInterfaceOrientationLandscapeRight == interfaceOrientation));
+}
 
 
 #pragma mark destructors and memory cleanUp
@@ -175,23 +173,29 @@
     // Set region based on old and new location
     CLLocationCoordinate2D theCenter = newLocation.coordinate;
     
+    CLLocationDegrees theLatitudeDelta;
+    CLLocationDegrees theLongitudeDelta;    
     MKCoordinateSpan theSpan;
-    // if this is the first update, oldLocation is nil
+    
     // if this is the second update, the coordinates of newLocation may equal the coordinates of oldLocation
-    if (nil == oldLocation 
-        || ((newLocation.coordinate.latitude == oldLocation.coordinate.latitude)
-        && (newLocation.coordinate.longitude == oldLocation.coordinate.longitude))) {
-        theSpan = MKCoordinateSpanMake(0.2, 0.2);
+    BOOL isSameLocation = ((newLocation.coordinate.latitude == oldLocation.coordinate.latitude)
+                           && (newLocation.coordinate.longitude == oldLocation.coordinate.longitude));
+    
+    // if this is the first update, oldLocation is nil
+    if ((nil == oldLocation) || isSameLocation) {
+        theLatitudeDelta = 0.02;
+        theLongitudeDelta = 0.02;
     } else {
-        theSpan = MKCoordinateSpanMake(
-                                       fmin(45.0, 4.0f * fabs(newLocation.coordinate.latitude - oldLocation.coordinate.latitude)),
-                                       fmin(45.0, 4.0f * fabs(newLocation.coordinate.longitude - oldLocation.coordinate.longitude)));
+        theLatitudeDelta = fmin(45.0, 4.0 * fabs(newLocation.coordinate.latitude - oldLocation.coordinate.latitude));
+        theLongitudeDelta = fmin(45.0, 4.0 * fabs(newLocation.coordinate.longitude - oldLocation.coordinate.longitude));
     }
+    theSpan = MKCoordinateSpanMake(theLatitudeDelta, theLongitudeDelta);
+    
     NSLog(@"lat: %f, long: %f, latDelta: %f, longDelta: %f",
           theCenter.latitude, theCenter.longitude, theSpan.latitudeDelta, theSpan.longitudeDelta);
     MKCoordinateRegion theRegion = MKCoordinateRegionMake(theCenter, theSpan);    
     [self.myMapView setRegion:theRegion animated:YES];
-
+    
     PointOfInterest *newPointOfInterest = [[PointOfInterest alloc] init];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];                

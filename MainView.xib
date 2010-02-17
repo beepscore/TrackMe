@@ -42,7 +42,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBMKMapView" id="391109271">
 						<reference key="NSNextResponder" ref="883825266"/>
-						<int key="NSvFlags">268</int>
+						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{326, 476}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -53,7 +53,7 @@
 					</object>
 					<object class="IBUIButton" id="558454645">
 						<reference key="NSNextResponder" ref="883825266"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{283, 421}, {18, 19}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<bool key="IBUIOpaque">NO</bool>
