@@ -20,8 +20,10 @@
 
 // define preferences keys
 NSString * const DesiredAccuracyPrefKey = @"DesiredAccuracyPrefKey";
+NSString * const DistanceFilterValuePrefKey = @"DistanceFilterValuePrefKey";
 // define preferences default values
 CLLocationAccuracy DefaultDesiredAccuracyPref = 10.0;
+CLLocationDistance DefaultDistanceFilterValuePref = 10.0;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -36,12 +38,19 @@ CLLocationAccuracy DefaultDesiredAccuracyPref = 10.0;
 - (void) loadPrefs {
     // set app defaults
     desiredAccuracyMeters = DefaultDesiredAccuracyPref;    
+    distanceFilterValueMeters = DefaultDistanceFilterValuePref;    
+
     // read user prefs
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     CLLocationAccuracy userDesiredAccuracy = [[defaults valueForKey:DesiredAccuracyPrefKey] floatValue];
     if (0 != userDesiredAccuracy) {
         desiredAccuracyMeters = userDesiredAccuracy;
     }
+    CLLocationDistance userDistanceFilterValue = [[defaults valueForKey:DistanceFilterValuePrefKey] floatValue];
+    if (0 != userDistanceFilterValue) {
+        distanceFilterValueMeters = userDistanceFilterValue;
+    }
+    
 }
 
 
@@ -54,12 +63,14 @@ CLLocationAccuracy DefaultDesiredAccuracyPref = 10.0;
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
-    
-    // notify us only if distance changes by 10 meters or more
-    self.locationManager.distanceFilter = 10.0f;
-    
+
     self.locationManager.desiredAccuracy = desiredAccuracyMeters;
-    NSLog(@"desiredAccuracy = %5.1f meters", self.locationManager.desiredAccuracy);
+    
+    // notify us only if distance changes by more than distanceFilter
+    self.locationManager.distanceFilter = distanceFilterValueMeters;
+    
+    NSLog(@"desiredAccuracy = %5.1f meters, distanceFilter = %5.1f meters",
+          self.locationManager.desiredAccuracy, self.locationManager.distanceFilter);
     
     [self.locationManager startUpdatingLocation];
 }

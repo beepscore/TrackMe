@@ -14,6 +14,7 @@
     MKMapView *myMapView;
     CLLocationManager *locationManager;
     CLLocationAccuracy desiredAccuracyMeters;
+    CLLocationDistance distanceFilterValueMeters;
 
 }
 #pragma mark -
