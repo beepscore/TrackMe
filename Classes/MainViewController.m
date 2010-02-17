@@ -171,13 +171,13 @@
     // In IB, checking mapView showsUserLocation will initially center map for us.
     
     // Set region based on old and new location
-    CLLocationCoordinate2D theCenter = newLocation.coordinate;
-    
+    CLLocationCoordinate2D theCenter = newLocation.coordinate;    
     CLLocationDegrees theLatitudeDelta;
     CLLocationDegrees theLongitudeDelta;    
     MKCoordinateSpan theSpan;
     
-    // if this is the second update, the coordinates of newLocation may equal the coordinates of oldLocation
+    // isSameLocation returns YES if newLocation coordinates equal the oldLocation coordinates.
+    // This may happen on the second update
     BOOL isSameLocation = ((newLocation.coordinate.latitude == oldLocation.coordinate.latitude)
                            && (newLocation.coordinate.longitude == oldLocation.coordinate.longitude));
     
@@ -198,6 +198,7 @@
     
     PointOfInterest *newPointOfInterest = [[PointOfInterest alloc] init];
     
+    // annotation title
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];                
     [dateFormatter setDateStyle:NSDateFormatterNoStyle];
     [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];                
