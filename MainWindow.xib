@@ -47,7 +47,7 @@
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MSAxIDEAA</bytes>
+					<bytes key="NSRGB">MC44IDAuOCAwLjgAA</bytes>
 				</object>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -127,6 +127,7 @@
 					<string>-2.CustomClassName</string>
 					<string>12.IBEditorWindowLastContentRect</string>
 					<string>12.IBPluginDependency</string>
+					<string>12.showNotes</string>
 					<string>15.CustomClassName</string>
 					<string>15.IBEditorWindowLastContentRect</string>
 					<string>15.IBPluginDependency</string>
@@ -139,6 +140,7 @@
 					<string>UIResponder</string>
 					<string>{{525, 346}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<boolean value="NO"/>
 					<string>TrackMeViewController</string>
 					<string>{{329, 365}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

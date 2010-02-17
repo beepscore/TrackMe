@@ -18,6 +18,12 @@
 @synthesize locationManager;
 
 
+// define preferences keys
+NSString * const DesiredAccuracyPrefKey = @"DesiredAccuracyPrefKey";
+// define preferences default values
+CLLocationAccuracy DefaultDesiredAccuracyPref = 10.0;
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         // Custom initialization
@@ -26,17 +32,35 @@
 }
 
 
+// load preferences from Settings.  Ref Dudney sec 9.5-9.6
+- (void) loadPrefs {
+    // set app defaults
+    desiredAccuracyMeters = DefaultDesiredAccuracyPref;    
+    // read user prefs
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    CLLocationAccuracy userDesiredAccuracy = [[defaults valueForKey:DesiredAccuracyPrefKey] floatValue];
+    if (0 != userDesiredAccuracy) {
+        desiredAccuracyMeters = userDesiredAccuracy;
+    }
+}
+
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadPrefs];
     
     // TODO: If not moving, stop updating location to save power
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
+    
     // notify us only if distance changes by 10 meters or more
     self.locationManager.distanceFilter = 10.0f;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    
+    self.locationManager.desiredAccuracy = desiredAccuracyMeters;
+    NSLog(@"desiredAccuracy = %5.1f meters", self.locationManager.desiredAccuracy);
+    
     [self.locationManager startUpdatingLocation];
 }
 

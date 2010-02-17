@@ -13,6 +13,8 @@
 <CLLocationManagerDelegate, MKMapViewDelegate> {
     MKMapView *myMapView;
     CLLocationManager *locationManager;
+    CLLocationAccuracy desiredAccuracyMeters;
+
 }
 #pragma mark -
 #pragma mark properties
