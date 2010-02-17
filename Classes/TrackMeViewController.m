@@ -42,11 +42,11 @@ CLLocationDistance DefaultDistanceFilterValuePref = 10.0;
 
     // read user prefs
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    CLLocationAccuracy userDesiredAccuracy = [[defaults valueForKey:DesiredAccuracyPrefKey] floatValue];
+    CLLocationAccuracy userDesiredAccuracy = [defaults floatForKey:DesiredAccuracyPrefKey];
     if (0 != userDesiredAccuracy) {
         desiredAccuracyMeters = userDesiredAccuracy;
     }
-    CLLocationDistance userDistanceFilterValue = [[defaults valueForKey:DistanceFilterValuePrefKey] floatValue];
+    CLLocationDistance userDistanceFilterValue = [defaults floatForKey:DistanceFilterValuePrefKey];
     if (0 != userDistanceFilterValue) {
         distanceFilterValueMeters = userDistanceFilterValue;
     }
