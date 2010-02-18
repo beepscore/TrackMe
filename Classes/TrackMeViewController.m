@@ -16,14 +16,19 @@
 #pragma mark properties
 @synthesize myMapView;
 @synthesize locationManager;
+@synthesize pinColorKeyArray;
+@synthesize pinColorObjectArray;
+@synthesize pinColorDictionary;
 
 
 // define preferences keys
 NSString * const DesiredAccuracyPrefKey = @"DesiredAccuracyPrefKey";
 NSString * const DistanceFilterValuePrefKey = @"DistanceFilterValuePrefKey";
+NSString * const PinColorPrefKey = @"PinColorPrefKey";
 // define preferences default values
-CLLocationAccuracy DefaultDesiredAccuracyPref = 10.0;
-CLLocationDistance DefaultDistanceFilterValuePref = 10.0;
+CLLocationAccuracy const DefaultDesiredAccuracyPref = 10.0;
+CLLocationDistance const DefaultDistanceFilterValuePref = 10.0;
+NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -36,10 +41,22 @@ CLLocationDistance DefaultDistanceFilterValuePref = 10.0;
 
 // load preferences from Settings.  Ref Dudney sec 9.5-9.6
 - (void) loadPrefs {
+    
+    // Create dictionary of strings and integers, based on constants.
+    // Ref http://stackoverflow.com/questions/925991/objective-c-nsstring-to-enum
+    pinColorKeyArray = [NSArray arrayWithObjects:@"MKPinAnnotationColorRed",
+                             @"MKPinAnnotationColorGreen", @"MKPinAnnotationColorPurple", nil];
+    pinColorObjectArray = [NSArray arrayWithObjects:
+                                [NSNumber numberWithInt:MKPinAnnotationColorRed],
+                                [NSNumber numberWithInt:MKPinAnnotationColorGreen],
+                                [NSNumber numberWithInt:MKPinAnnotationColorPurple],
+                                nil];
+    pinColorDictionary = [NSDictionary dictionaryWithObjects:pinColorObjectArray forKeys:pinColorKeyArray];
+    
     // set app defaults
     desiredAccuracyMeters = DefaultDesiredAccuracyPref;    
     distanceFilterValueMeters = DefaultDistanceFilterValuePref;    
-
+    myPinColor = DefaultPinColor;
     // read user prefs
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     CLLocationAccuracy userDesiredAccuracy = [defaults floatForKey:DesiredAccuracyPrefKey];
@@ -50,7 +67,8 @@ CLLocationDistance DefaultDistanceFilterValuePref = 10.0;
     if (0 != userDistanceFilterValue) {
         distanceFilterValueMeters = userDistanceFilterValue;
     }
-    
+    NSUInteger userPinColor = [[pinColorDictionary objectForKey:[defaults stringForKey:PinColorPrefKey]] intValue];
+        myPinColor = userPinColor;
 }
 
 
@@ -90,6 +108,9 @@ CLLocationDistance DefaultDistanceFilterValuePref = 10.0;
 - (void)cleanUp {
     [myMapView release], myMapView = nil;
     [locationManager release], locationManager = nil;
+    [pinColorDictionary release], pinColorDictionary = nil;
+    [pinColorKeyArray release], pinColorKeyArray = nil;
+    [pinColorObjectArray release], pinColorObjectArray = nil;
 }
 
 
@@ -160,7 +181,7 @@ CLLocationDistance DefaultDistanceFilterValuePref = 10.0;
         } else {
             NSLog(@"dequeueReusableAnnotationViewWithIdentifier returned an annotationView");
         }    
-        [annotationView setPinColor:MKPinAnnotationColorPurple];
+        [annotationView setPinColor:myPinColor];
         [annotationView setCanShowCallout:YES];
         [annotationView setAnimatesDrop:YES];
     } else {

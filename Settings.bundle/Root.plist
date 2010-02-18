@@ -54,6 +54,28 @@
                     <real>3000</real>
                 </array>
             </dict>
+            <dict>
+                <key>Type</key>
+                <string>PSMultiValueSpecifier</string>
+                <key>Title</key>
+                <string>Pin Color</string>
+                <key>Key</key>
+                <string>PinColorPrefKey</string>
+                <key>DefaultValue</key>
+                <string>MKPinAnnotationColorPurple</string>
+                <key>Titles</key>
+                <array>
+                    <string>Red</string>
+                    <string>Green</string>
+                    <string>Purple</string>
+                </array>
+                <key>Values</key>
+                <array>
+                    <string>MKPinAnnotationColorRed</string>
+                    <string>MKPinAnnotationColorGreen</string>
+                    <string>MKPinAnnotationColorPurple</string>
+                </array>
+            </dict>
         </array>
     </dict>
 </plist>

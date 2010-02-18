@@ -15,11 +15,18 @@
     CLLocationManager *locationManager;
     CLLocationAccuracy desiredAccuracyMeters;
     CLLocationDistance distanceFilterValueMeters;
-
+    
+    NSArray *pinColorKeyArray;
+    NSArray *pinColorObjectArray;
+    NSDictionary *pinColorDictionary;
+    NSUInteger myPinColor;
 }
+
 #pragma mark -
 #pragma mark properties
 @property(nonatomic, retain) IBOutlet MKMapView *myMapView;
 @property(nonatomic,retain)CLLocationManager *locationManager;
-
+@property(nonatomic, copy, readonly) NSArray *pinColorKeyArray;
+@property(nonatomic, copy, readonly) NSArray *pinColorObjectArray;
+@property(nonatomic, copy, readonly) NSDictionary *pinColorDictionary;
 @end
