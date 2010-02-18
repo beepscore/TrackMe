@@ -16,8 +16,6 @@
 #pragma mark properties
 @synthesize myMapView;
 @synthesize locationManager;
-@synthesize pinColorKeyArray;
-@synthesize pinColorObjectArray;
 @synthesize pinColorDictionary;
 
 
@@ -44,14 +42,18 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
     
     // Create dictionary of strings and integers, based on constants.
     // Ref http://stackoverflow.com/questions/925991/objective-c-nsstring-to-enum
-    pinColorKeyArray = [NSArray arrayWithObjects:@"MKPinAnnotationColorRed",
+    
+    pinColorKeyArray = [[NSArray alloc] initWithObjects:@"MKPinAnnotationColorRed",
                              @"MKPinAnnotationColorGreen", @"MKPinAnnotationColorPurple", nil];
-    pinColorObjectArray = [NSArray arrayWithObjects:
+    pinColorObjectArray = [[NSArray alloc] initWithObjects:
                                 [NSNumber numberWithInt:MKPinAnnotationColorRed],
                                 [NSNumber numberWithInt:MKPinAnnotationColorGreen],
                                 [NSNumber numberWithInt:MKPinAnnotationColorPurple],
                                 nil];
-    pinColorDictionary = [NSDictionary dictionaryWithObjects:pinColorObjectArray forKeys:pinColorKeyArray];
+    pinColorDictionary = [[NSDictionary alloc] initWithObjects:pinColorObjectArray forKeys:pinColorKeyArray];
+    
+    [pinColorKeyArray release];
+    [pinColorObjectArray release];
     
     // set app defaults
     desiredAccuracyMeters = DefaultDesiredAccuracyPref;    
@@ -108,9 +110,8 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
 - (void)cleanUp {
     [myMapView release], myMapView = nil;
     [locationManager release], locationManager = nil;
+
     [pinColorDictionary release], pinColorDictionary = nil;
-    [pinColorKeyArray release], pinColorKeyArray = nil;
-    [pinColorObjectArray release], pinColorObjectArray = nil;
 }
 
 
