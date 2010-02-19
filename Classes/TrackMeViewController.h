@@ -15,7 +15,12 @@
 #pragma mark instance variables
     MKMapView *myMapView;
     CLLocationManager *locationManager;
+
     CLLocationAccuracy desiredAccuracyMeters;
+    NSArray *desiredAccuracyKeyArray;
+    NSArray *desiredAccuracyObjectArray;
+    NSDictionary *desiredAccuracyDictionary;    
+    
     CLLocationDistance distanceFilterValueMeters;
     
     NSArray *pinColorKeyArray;
@@ -27,6 +32,7 @@
 #pragma mark -
 #pragma mark properties
 @property(nonatomic, retain) IBOutlet MKMapView *myMapView;
-@property(nonatomic,retain)CLLocationManager *locationManager;
+@property(nonatomic,retain) CLLocationManager *locationManager;
+@property(nonatomic, copy, readonly) NSDictionary *desiredAccuracyDictionary;
 @property(nonatomic, copy, readonly) NSDictionary *pinColorDictionary;
 @end

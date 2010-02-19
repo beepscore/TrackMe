@@ -14,9 +14,10 @@
                 <key>Key</key>
                 <string>DesiredAccuracyPrefKey</string>
                 <key>DefaultValue</key>
-                <real>10</real>
+                <string>kCLLocationAccuracyBest</string>
                 <key>Titles</key>
                 <array>
+                    <string>Best</string>
                     <string>10 meters</string>
                     <string>100 meters</string>
                     <string>1 kilometer</string>
@@ -24,10 +25,11 @@
                 </array>
                 <key>Values</key>
                 <array>
-                    <real>10</real>
-                    <real>100</real>
-                    <real>1000</real>
-                    <real>3000</real>
+                    <string>kCLLocationAccuracyBest</string>
+                    <string>kCLLocationAccuracyNearestTenMeters</string>
+                    <string>kCLLocationAccuracyHundredMeters</string>
+                    <string>kCLLocationAccuracyKilometer</string>
+                    <string>kCLLocationAccuracyThreeKilometers</string>
                 </array>
             </dict>
             <dict>

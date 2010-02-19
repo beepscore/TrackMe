@@ -9,13 +9,13 @@
 #import "TrackMeViewController.h"
 #import "PointOfInterest.h"
 
-
 @implementation TrackMeViewController
 
 #pragma mark -
 #pragma mark properties
 @synthesize myMapView;
 @synthesize locationManager;
+@synthesize desiredAccuracyDictionary;
 @synthesize pinColorDictionary;
 
 
@@ -23,10 +23,6 @@
 NSString * const DesiredAccuracyPrefKey = @"DesiredAccuracyPrefKey";
 NSString * const DistanceFilterValuePrefKey = @"DistanceFilterValuePrefKey";
 NSString * const PinColorPrefKey = @"PinColorPrefKey";
-// define preferences default values
-CLLocationAccuracy const DefaultDesiredAccuracyPref = 10.0;
-CLLocationDistance const DefaultDistanceFilterValuePref = 10.0;
-NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -40,11 +36,29 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
 // load preferences from Settings.  Ref Dudney sec 9.5-9.6
 - (void) loadPrefs {
     
-    // this doesn't work, says class is not key value coding compliant
-    // NSLog(@"value for key = %d", [MKPinAnnotationView valueForKey:@"MKPinAnnotationColorPurple"]);
-    
     // Create dictionary of strings and integers, based on constants.
     // Ref http://stackoverflow.com/questions/925991/objective-c-nsstring-to-enum
+    
+    desiredAccuracyKeyArray = [[NSArray alloc] initWithObjects:
+                               @"kCLLocationAccuracyBest",
+                               @"kCLLocationAccuracyNearestTenMeters", 
+                               @"kCLLocationAccuracyHundredMeters", 
+                               @"kCLLocationAccuracyKilometer", 
+                               @"kCLLocationAccuracyThreeKilometers", 
+                               nil];
+    desiredAccuracyObjectArray = [[NSArray alloc] initWithObjects:
+                                  [NSNumber numberWithInt:kCLLocationAccuracyBest],
+                                  [NSNumber numberWithInt:kCLLocationAccuracyNearestTenMeters],
+                                  [NSNumber numberWithInt:kCLLocationAccuracyHundredMeters],
+                                  [NSNumber numberWithInt:kCLLocationAccuracyKilometer],
+                                  [NSNumber numberWithInt:kCLLocationAccuracyThreeKilometers],
+                                  nil];
+    desiredAccuracyDictionary = [[NSDictionary alloc] 
+                                 initWithObjects:desiredAccuracyObjectArray forKeys:desiredAccuracyKeyArray];
+    
+    [desiredAccuracyKeyArray release];
+    [desiredAccuracyObjectArray release];
+
     
     pinColorKeyArray = [[NSArray alloc] initWithObjects:
                         @"MKPinAnnotationColorRed",
@@ -60,21 +74,27 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
     
     [pinColorKeyArray release];
     [pinColorObjectArray release];
-    
+
+
     // set app defaults
-    desiredAccuracyMeters = DefaultDesiredAccuracyPref;    
-    distanceFilterValueMeters = DefaultDistanceFilterValuePref;    
-    myPinColor = DefaultPinColor;
+    desiredAccuracyMeters = kCLLocationAccuracyNearestTenMeters;    
+    distanceFilterValueMeters = 10.0;    
+    myPinColor = MKPinAnnotationColorPurple;
+
     // read user prefs
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    CLLocationAccuracy userDesiredAccuracy = [defaults floatForKey:DesiredAccuracyPrefKey];
+    
+    CLLocationAccuracy userDesiredAccuracy = 
+    [[desiredAccuracyDictionary objectForKey:[defaults stringForKey:DesiredAccuracyPrefKey]] floatValue];     
     if (0 != userDesiredAccuracy) {
         desiredAccuracyMeters = userDesiredAccuracy;
     }
+    
     CLLocationDistance userDistanceFilterValue = [defaults floatForKey:DistanceFilterValuePrefKey];
     if (0 != userDistanceFilterValue) {
         distanceFilterValueMeters = userDistanceFilterValue;
     }
+    
     myPinColor = [[pinColorDictionary objectForKey:[defaults stringForKey:PinColorPrefKey]] intValue];
 }
 
@@ -115,7 +135,7 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
 - (void)cleanUp {
     [myMapView release], myMapView = nil;
     [locationManager release], locationManager = nil;
-    
+    [desiredAccuracyDictionary release], desiredAccuracyDictionary = nil;    
     [pinColorDictionary release], pinColorDictionary = nil;
 }
 
@@ -253,7 +273,6 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
     [self.myMapView addAnnotation:newPointOfInterest];
     [newPointOfInterest release], newPointOfInterest = nil;
 }
-
 
 @end
 
