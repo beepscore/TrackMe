@@ -40,16 +40,22 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
 // load preferences from Settings.  Ref Dudney sec 9.5-9.6
 - (void) loadPrefs {
     
+    // this doesn't work, says class is not key value coding compliant
+    // NSLog(@"value for key = %d", [MKPinAnnotationView valueForKey:@"MKPinAnnotationColorPurple"]);
+    
     // Create dictionary of strings and integers, based on constants.
     // Ref http://stackoverflow.com/questions/925991/objective-c-nsstring-to-enum
     
-    pinColorKeyArray = [[NSArray alloc] initWithObjects:@"MKPinAnnotationColorRed",
-                             @"MKPinAnnotationColorGreen", @"MKPinAnnotationColorPurple", nil];
+    pinColorKeyArray = [[NSArray alloc] initWithObjects:
+                        @"MKPinAnnotationColorRed",
+                        @"MKPinAnnotationColorGreen", 
+                        @"MKPinAnnotationColorPurple", 
+                        nil];
     pinColorObjectArray = [[NSArray alloc] initWithObjects:
-                                [NSNumber numberWithInt:MKPinAnnotationColorRed],
-                                [NSNumber numberWithInt:MKPinAnnotationColorGreen],
-                                [NSNumber numberWithInt:MKPinAnnotationColorPurple],
-                                nil];
+                           [NSNumber numberWithInt:MKPinAnnotationColorRed],
+                           [NSNumber numberWithInt:MKPinAnnotationColorGreen],
+                           [NSNumber numberWithInt:MKPinAnnotationColorPurple],
+                           nil];
     pinColorDictionary = [[NSDictionary alloc] initWithObjects:pinColorObjectArray forKeys:pinColorKeyArray];
     
     [pinColorKeyArray release];
@@ -69,8 +75,7 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
     if (0 != userDistanceFilterValue) {
         distanceFilterValueMeters = userDistanceFilterValue;
     }
-    NSUInteger userPinColor = [[pinColorDictionary objectForKey:[defaults stringForKey:PinColorPrefKey]] intValue];
-        myPinColor = userPinColor;
+    myPinColor = [[pinColorDictionary objectForKey:[defaults stringForKey:PinColorPrefKey]] intValue];
 }
 
 
@@ -83,7 +88,7 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
-
+    
     self.locationManager.desiredAccuracy = desiredAccuracyMeters;
     
     // notify us only if distance changes by more than distanceFilter
@@ -110,7 +115,7 @@ NSUInteger const DefaultPinColor = MKPinAnnotationColorPurple;
 - (void)cleanUp {
     [myMapView release], myMapView = nil;
     [locationManager release], locationManager = nil;
-
+    
     [pinColorDictionary release], pinColorDictionary = nil;
 }
 
