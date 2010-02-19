@@ -47,11 +47,11 @@ NSString * const PinColorPrefKey = @"PinColorPrefKey";
                                @"kCLLocationAccuracyThreeKilometers", 
                                nil];
     desiredAccuracyObjectArray = [[NSArray alloc] initWithObjects:
-                                  [NSNumber numberWithInt:kCLLocationAccuracyBest],
-                                  [NSNumber numberWithInt:kCLLocationAccuracyNearestTenMeters],
-                                  [NSNumber numberWithInt:kCLLocationAccuracyHundredMeters],
-                                  [NSNumber numberWithInt:kCLLocationAccuracyKilometer],
-                                  [NSNumber numberWithInt:kCLLocationAccuracyThreeKilometers],
+                                  [NSNumber numberWithDouble:kCLLocationAccuracyBest],
+                                  [NSNumber numberWithDouble:kCLLocationAccuracyNearestTenMeters],
+                                  [NSNumber numberWithDouble:kCLLocationAccuracyHundredMeters],
+                                  [NSNumber numberWithDouble:kCLLocationAccuracyKilometer],
+                                  [NSNumber numberWithDouble:kCLLocationAccuracyThreeKilometers],
                                   nil];
     desiredAccuracyDictionary = [[NSDictionary alloc] 
                                  initWithObjects:desiredAccuracyObjectArray forKeys:desiredAccuracyKeyArray];
@@ -85,7 +85,7 @@ NSString * const PinColorPrefKey = @"PinColorPrefKey";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     CLLocationAccuracy userDesiredAccuracy = 
-    [[desiredAccuracyDictionary objectForKey:[defaults stringForKey:DesiredAccuracyPrefKey]] floatValue];     
+    [[desiredAccuracyDictionary objectForKey:[defaults stringForKey:DesiredAccuracyPrefKey]] doubleValue];     
     if (0 != userDesiredAccuracy) {
         desiredAccuracyMeters = userDesiredAccuracy;
     }
