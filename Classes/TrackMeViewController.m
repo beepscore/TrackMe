@@ -131,36 +131,11 @@ NSString * const PinColorPrefKey = @"PinColorPrefKey";
 
 
 #pragma mark destructors and memory cleanUp
-// use cleanUp method to avoid repeating code in setView, viewDidUnload, and dealloc
-- (void)cleanUp {
-    [myMapView release], myMapView = nil;
-    [locationManager release], locationManager = nil;
-    [desiredAccuracyDictionary release], desiredAccuracyDictionary = nil;    
-    [pinColorDictionary release], pinColorDictionary = nil;
-}
-
-
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
-}
-
-
-// Release IBOutlets in setView.  
-// Ref http://developer.apple.com/iPhone/library/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmNibObjects.html
-//
-// http://moodle.extn.washington.edu/mod/forum/discuss.php?d=3162
-- (void)setView:(UIView *)aView {
-    
-    if (!aView) { // view is being set to nil        
-        // set outlets to nil, e.g. 
-        // self.anOutlet = nil;
-        [self cleanUp];
-    }    
-    // Invoke super's implementation last    
-    [super setView:aView];    
 }
 
 
@@ -172,14 +147,22 @@ NSString * const PinColorPrefKey = @"PinColorPrefKey";
 }
 
 
+// Ref http://developer.apple.com/mac/library/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmNibObjects.html
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
-	[self cleanUp];
+    // Release any retained outlets
+    // set properties to nil, which also releases them
+    self.myMapView = nil;
+    
+    [super viewDidUnload];
 }
 
 
 - (void)dealloc {
-    [self cleanUp];
+    [locationManager release], locationManager = nil;
+    [desiredAccuracyDictionary release], desiredAccuracyDictionary = nil;    
+    [pinColorDictionary release], pinColorDictionary = nil;
+    
     [super dealloc];
 }
 
