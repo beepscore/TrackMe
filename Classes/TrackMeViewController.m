@@ -130,7 +130,7 @@ NSString * const PinColorPrefKey = @"PinColorPrefKey";
 }
 
 
-#pragma mark destructors and memory cleanUp
+#pragma mark Memory management
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -153,12 +153,16 @@ NSString * const PinColorPrefKey = @"PinColorPrefKey";
     // Release any retained outlets
     // set properties to nil, which also releases them
     self.myMapView = nil;
+    self.locationManager = nil;
+    [desiredAccuracyDictionary release], desiredAccuracyDictionary = nil;    
+    [pinColorDictionary release], pinColorDictionary = nil;
     
     [super viewDidUnload];
 }
 
 
 - (void)dealloc {
+    [myMapView release], myMapView = nil;
     [locationManager release], locationManager = nil;
     [desiredAccuracyDictionary release], desiredAccuracyDictionary = nil;    
     [pinColorDictionary release], pinColorDictionary = nil;
