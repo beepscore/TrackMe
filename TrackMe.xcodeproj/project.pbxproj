@@ -15,6 +15,7 @@
 		288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765580DF743DE002DB57D /* CoreGraphics.framework */; };
 		289233AE0DB2D0DB0083E9F9 /* TrackMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A90DB2D0DB0083E9F9 /* TrackMeViewController.m */; };
 		DE366591112BD0D500E2FA2C /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE366590112BD0D500E2FA2C /* MainWindow.xib */; };
+		DE62D5DD11E5532200075BD2 /* beepscoreIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = DE62D5DC11E5532200075BD2 /* beepscoreIcon.png */; };
 		DE934ED8112BED90004B286F /* Icon-Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = DE934ED7112BED90004B286F /* Icon-Settings.png */; };
 		DE934EE6112BEE1A004B286F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DE934EE5112BEE1A004B286F /* Settings.bundle */; };
 		DEAA1D49112946150044D2E2 /* PointOfInterest.m in Sources */ = {isa = PBXBuildFile; fileRef = DEAA1D48112946150044D2E2 /* PointOfInterest.m */; };
@@ -36,6 +37,7 @@
 		32CA4F630368D1EE00C91783 /* TrackMe_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackMe_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* TrackMe-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TrackMe-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		DE366590112BD0D500E2FA2C /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		DE62D5DC11E5532200075BD2 /* beepscoreIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beepscoreIcon.png; sourceTree = "<group>"; };
 		DE934ED7112BED90004B286F /* Icon-Settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Settings.png"; sourceTree = "<group>"; };
 		DE934EE5112BEE1A004B286F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		DEAA1D47112946150044D2E2 /* PointOfInterest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointOfInterest.h; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DE62D5DC11E5532200075BD2 /* beepscoreIcon.png */,
 				DE934ED7112BED90004B286F /* Icon-Settings.png */,
 				280E754C0DD40C5E005A515E /* TrackMeViewController.xib */,
 				DE366590112BD0D500E2FA2C /* MainWindow.xib */,
@@ -179,6 +182,7 @@
 				DE366591112BD0D500E2FA2C /* MainWindow.xib in Resources */,
 				DE934ED8112BED90004B286F /* Icon-Settings.png in Resources */,
 				DE934EE6112BEE1A004B286F /* Settings.bundle in Resources */,
+				DE62D5DD11E5532200075BD2 /* beepscoreIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +239,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.3;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -249,7 +253,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.3;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
 		};

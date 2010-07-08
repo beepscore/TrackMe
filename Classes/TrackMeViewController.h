@@ -13,19 +13,16 @@
 <CLLocationManagerDelegate, MKMapViewDelegate> {
 #pragma mark -
 #pragma mark instance variables
-    MKMapView *myMapView;
-    CLLocationManager *locationManager;
+    // Xcode will automatically add instance variables to back properties
 
     CLLocationAccuracy desiredAccuracyMeters;
     NSArray *desiredAccuracyKeyArray;
     NSArray *desiredAccuracyObjectArray;
-    NSDictionary *desiredAccuracyDictionary;    
     
     CLLocationDistance distanceFilterValueMeters;
     
     NSArray *pinColorKeyArray;
     NSArray *pinColorObjectArray;
-    NSDictionary *pinColorDictionary;
     NSUInteger myPinColor;
 }
 

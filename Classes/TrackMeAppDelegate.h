@@ -10,8 +10,7 @@
 @class TrackMeViewController;
 
 @interface TrackMeAppDelegate : NSObject <UIApplicationDelegate> {
-    UIWindow *window;
-    TrackMeViewController *viewController;
+    // Xcode will automatically add instance variables to back properties
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
